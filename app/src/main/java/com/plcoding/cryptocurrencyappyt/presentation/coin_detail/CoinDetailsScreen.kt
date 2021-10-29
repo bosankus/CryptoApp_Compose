@@ -1,24 +1,17 @@
 package com.plcoding.cryptocurrencyappyt.presentation.coin_detail
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.flowlayout.FlowRow
-import com.plcoding.cryptocurrencyappyt.presentation.coin_detail.component.CoinTag
-import com.plcoding.cryptocurrencyappyt.presentation.coin_detail.component.TeamListItem
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.text.font.*
+import androidx.compose.ui.text.style.*
+import androidx.compose.ui.unit.*
+import androidx.hilt.navigation.compose.*
+import com.google.accompanist.flowlayout.*
+import com.plcoding.cryptocurrencyappyt.presentation.coin_detail.component.*
 
 @Composable
 fun CoinDetailScreen(viewModel: CoinDetailViewModel = hiltViewModel()) {
@@ -54,7 +47,7 @@ fun CoinDetailScreen(viewModel: CoinDetailViewModel = hiltViewModel()) {
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                     Text(
-                        text = coin.description,
+                        text = coin.description ?: "Description not available at this moment.",
                         style = MaterialTheme.typography.body2,
                     )
                     Spacer(modifier = Modifier.height(15.dp))
@@ -67,7 +60,11 @@ fun CoinDetailScreen(viewModel: CoinDetailViewModel = hiltViewModel()) {
                         crossAxisSpacing = 10.dp,
                         mainAxisSpacing = 10.dp
                     ) {
-                        coin.tags.forEach { tag -> CoinTag(tag = tag) }
+                        coin.tags?.let { tagList ->
+                            tagList.forEach { tag ->
+                                tag?.let { CoinTag(tag = it) }
+                            }
+                        }
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                     Text(
