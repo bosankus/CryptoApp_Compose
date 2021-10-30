@@ -46,10 +46,17 @@ fun CoinDetailScreen(viewModel: CoinDetailViewModel = hiltViewModel()) {
                         )
                     }
                     Spacer(modifier = Modifier.height(15.dp))
-                    Text(
-                        text = coin.description ?: "Description not available at this moment.",
-                        style = MaterialTheme.typography.body2,
-                    )
+                    if (!coin.description.isNullOrEmpty())
+                        Text(
+                            text = coin.description,
+                            style = MaterialTheme.typography.body2,
+                        )
+                    else
+                        Text(
+                            text = "Description currently not available",
+                            style = MaterialTheme.typography.body2,
+                            color = MaterialTheme.colors.primary
+                        )
                     Spacer(modifier = Modifier.height(15.dp))
                     Text(
                         text = "Tags",

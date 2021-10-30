@@ -39,7 +39,11 @@ class CoinDetailViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = CoinDetailState(
-                        error = result.message ?: "An unexpected error occurred"
+                        error = result.message?.let { msg ->
+                            if (msg.equals("HTTP 429", false))
+                                "Too many request. Server protecting itself from abuse"
+                            else msg
+                        } ?: "An unexpected error occurred"
                     )
                 }
             }
